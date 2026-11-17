@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Натюрморт — 4 цветные гармонии | Проект занятия</title>
+<style>
+  :root{
+    --bg:#faf7f2; --ink:#2b2b2b; --muted:#6b6b6b;
+    --c1:#e63946; --c2:#f4a261; --c3:#2a9d8f; --c4:#457b9d; --c5:#9b5de5;
+    --card:#ffffff; --line:#e6e0d6; --radius:18px;
+    --shadow:0 10px 30px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  header.hero{
+    position:relative;padding:70px 24px 90px;text-align:center;overflow:hidden;
+    background:linear-gradient(135deg,#fdf6ec 0%,#f7e8d0 40%,#e8f0ee 100%);
+  }
+  header.hero::before,header.hero::after{
+    content:"";position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;
+  }
+  header.hero::before{width:320px;height:320px;background:var(--c1);top:-120px;left:-80px}
+  header.hero::after{width:300px;height:300px;background:var(--c3);bottom:-140px;right:-60px}
+  header.hero h1{position:relative;font-size:clamp(28px,5vw,52px);margin:0 0 12px;letter-spacing:-.5px}
+  header.hero p{position:relative;max-width:680px;margin:0 auto;color:var(--muted);font-size:clamp(15px,2vw,18px)}
+  .badge{position:relative;display:inline-block;margin-bottom:18px;padding:8px 18px;border-radius:999px;background:#fff;box-shadow:var(--shadow);font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--c4)}
+  .authors{position:relative;margin-top:22px;font-size:15px;color:#3a3a3a;background:rgba(255,255,255,.7);backdrop-filter:blur(6px);display:inline-block;padding:10px 22px;border-radius:999px;border:1px solid var(--line)}
+  .authors b{color:var(--c4)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  section{margin:38px 0}
+  .grid{display:grid;gap:22px}
+  .cols-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .cols-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.12)}
+  .card h3{margin:0 0 10px;font-size:19px}
+  .card .tag{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+  .t1{background:#fde2e4;color:#a4161a}.t2{background:#fff1e0;color:#b45309}.t3{background:#d8f3ee;color:#0f6e63}.t4{background:#e0ecf5;color:#2b5f85}
+  .harmony{position:relative;overflow:hidden}
+  .harmony svg{display:block;width:100%;height:auto;border-radius:12px;background:#fff}
+  .harmony-img{display:block;width:100%;height:170px;object-fit:cover;border-radius:12px;background:#f0ece4}
+  .kpi{font-size:34px;font-weight:800;line-height:1}
+  details{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin-bottom:12px;box-shadow:var(--shadow)}
+  details summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";font-size:22px;color:var(--c4);transition:transform .2s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details .body{padding-top:14px;border-top:1px dashed var(--line);margin-top:14px;color:#3a3a3a}
+  table{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f3efe7;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+  tr:last-child td{border-bottom:none}
+  .timeline{position:relative;margin-left:12px;padding-left:28px;border-left:3px solid var(--c2)}
+  .tl-item{position:relative;margin-bottom:22px}
+  .tl-item::before{content:"";position:absolute;left:-38px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--c4);border:3px solid #fff;box-shadow:0 0 0 3px var(--c2)}
+  .tl-item b{display:block;font-size:16px}
+  .tl-item span{color:var(--muted);font-size:14px}
+  .pill{display:inline-block;background:#eef6f4;color:#0f6e63;border-radius:999px;padding:4px 12px;font-size:13px;margin:3px 4px 3px 0;font-weight:600}
+  .vark{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+  .vark .card{padding:18px}
+  .vark .icon{font-size:30px;margin-bottom:6px;display:block}
+  .illustr{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:18px}
+  .illustr figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .illustr img{display:block;width:100%;height:150px;object-fit:cover;background:#efe9df}
+  .illustr figcaption{padding:10px 14px;font-size:13px;color:var(--muted)}
+  .palette-bar{display:flex;height:26px;border-radius:8px;overflow:hidden;margin:10px 0 4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)}
+  .palette-bar span{flex:1}
+  .circle-img{display:block;width:100%;max-width:420px;margin:0 auto;border-radius:16px;box-shadow:var(--shadow)}
+  footer{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+  .note{background:#fff8e6;border-left:4px solid #e6a700;padding:14px 18px;border-radius:10px;font-size:14px;color:#5a4a00}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge">Практическое занятие · 90 минут</div>
+  <h1>Натюрморт — 4 цветные гармонии</h1>
+  <p>Проект учебного занятия по дисциплине «Живопись» (ООП 54.03.01 «Дизайн»). Модуль «Цветоведение и колористика».</p>
+  <div class="authors">Выполнили: <b>Зайкина А., Учанкина К., Звонцова Е., Сергеева Н.</b> · группа <b>8ИМ62</b></div>
+</header>
+
+<main class="wrap">
+
+  <!-- Визитная карточка -->
+  <section>
+    <h2 style="margin-bottom:16px">1. Визитная карточка</h2>
+    <div class="grid cols-2">
+      <div class="card">
+        <span class="tag t4">1.1. ООП и тема</span>
+        <h3>ООП 54.03.01 «Дизайн»</h3>
+        <p>Дисциплина: <b>«Живопись»</b>. Тема: <b>«Натюрморт — 4 цветные гармонии»</b> — раздел 4 РП «Структура и содержание», модуль «Цветоведение и колористика».</p>
+      </div>
+      <div class="card">
+        <span class="tag t4">1.2. Профессиональный контекст</span>
+        <h3>Зачем это будущему дизайнеру?</h3>
+        <p>Умение строить цветовые гармонии — базовый инструмент при создании айдентики, интерфейсов, средового дизайна. Занятие — промежуточное в модуле; формирует ОПК-2 (основы цветоведения) и ПК-1 (колористическое решение проекта).</p>
+      </div>
+      <div class="card" style="grid-column:1/-1">
+        <span class="tag t4">1.3. Формат занятия</span>
+        <h3>Практическое занятие</h3>
+        <p>Выбран потому, что тема требует непосредственной работы с красками и материалами, а также взаимной оценки результатов. Лекция не позволяет проверить умение выстраивать гармонию.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Цель и результаты -->
+  <section>
+    <h2 style="margin-bottom:16px">2. Цель и результаты</h2>
+    <div class="card" style="margin-bottom:18px">
+      <span class="tag t1">2.1. Цель занятия</span>
+      <h3>Формирование представлений о четырёх типах цветовых гармоний</h3>
+      <p>…о принципах их построения на примере натюрморта, о критериях оценки колористического единства работы.</p>
+    </div>
+    <div class="grid cols-2">
+      <div class="card"><span class="tag t1">РО1 · Знание</span><h3>Перечислять</h3><p>Четыре типа цветовых гармоний и их признаки.</p></div>
+      <div class="card"><span class="tag t2">РО2 · Понимание</span><h3>Читать схему</h3><p>Читать цветовой круг и определять тип гармонии по заданной палитре.</p></div>
+      <div class="card"><span class="tag t3">РО3 · Применение</span><h3>Выполнять</h3><p>Выполнять натюрморт в заданной гармонии по алгоритму: палитра → эскиз → живописное решение.</p></div>
+      <div class="card"><span class="tag t4">РО4 · Анализ</span><h3>Анализировать</h3><p>Анализировать колористическое решение по критериям: контраст, нюанс, целостность.</p></div>
+    </div>
+  </section>
+
+  <!-- Цветовой круг -->
+  <section>
+    <h2 style="margin-bottom:16px">Цветовой круг Иттена — опора занятия</h2>
+    <div class="card">
+      <svg class="circle-img" viewBox="0 0 400 400" role="img" aria-label="Цветовой круг Иттена из 12 секторов">
+        <g transform="translate(200,200)">
+          <!-- 12 секторов -->
+          <path d="M0,0 L0,-170 A170,170 0 0,1 85,-147 Z" fill="#f4d35e"/>
+          <path d="M0,0 L85,-147 A170,170 0 0,1 147,-85 Z" fill="#f4a261"/>
+          <path d="M0,0 L147,-85 A170,170 0 0,1 170,0 Z" fill="#e76f51"/>
+          <path d="M0,0 L170,0 A170,170 0 0,1 147,85 Z" fill="#e63946"/>
+          <path d="M0,0 L147,85 A170,170 0 0,1 85,147 Z" fill="#9b5de5"/>
+          <path d="M0,0 L85,147 A170,170 0 0,1 0,170 Z" fill="#457b9d"/>
+          <path d="M0,0 L0,170 A170,170 0 0,1 -85,147 Z" fill="#2a9d8f"/>
+          <path d="M0,0 L-85,147 A170,170 0 0,1 -147,85 Z" fill="#2a9d8f"/>
+          <path d="M0,0 L-147,85 A170,170 0 0,1 -170,0 Z" fill="#80b918"/>
+          <path d="M0,0 L-170,0 A170,170 0 0,1 -147,-85 Z" fill="#f4d35e"/>
+          <path d="M0,0 L-147,-85 A170,170 0 0,1 -85,-147 Z" fill="#f4a261"/>
+          <path d="M0,0 L-85,-147 A170,170 0 0,1 0,-170 Z" fill="#e76f51"/>
+          <circle r="60" fill="#fff"/>
+          <text y="6" text-anchor="middle" font-size="16" fill="#6b6b6b" font-family="system-ui">12 секторов</text>
+        </g>
+      </svg>
+      <p style="text-align:center;color:var(--muted);font-size:14px;margin-bottom:0">Схема используется на этапе погружения в проблему (15 мин): студенты находят на круге монохромию, аналогию, комплементарную пару и триаду</p>
+    </div>
+  </section>
+
+  <!-- 4 гармонии с иллюстрациями -->
+  <section>
+    <h2 style="margin-bottom:16px">Четыре цветовые гармонии — визуально</h2>
+    <div class="grid cols-2">
+      <div class="card harmony">
+        <h3>Монохромия</h3>
+        <div class="palette-bar"><span style="background:#1d3557"></span><span style="background:#457b9d"></span><span style="background:#a8dadc"></span><span style="background:#e0fbfc"></span><span style="background:#f1faee"></span></div>
+        <p style="margin-top:10px">Один цвет, разные светлоты и насыщенности. Даёт целостность и сдержанность.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:0">Пример в практике дизайна: монохромные лендинги, «синие» бренды (IBM, Samsung)</p>
+      </div>
+      <div class="card harmony">
+        <h3>Аналогия</h3>
+        <div class="palette-bar"><span style="background:#e63946"></span><span style="background:#f4a261"></span><span style="background:#e9c46a"></span><span style="background:#f6bd60"></span><span style="background:#fefae0"></span></div>
+        <p style="margin-top:10px">Соседние цвета круга. Мягкий, «природный» переход.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:0">Пример: осенние палитры, «тёплые» интерьеры, упаковка продуктов</p>
+      </div>
+      <div class="card harmony">
+        <h3>Комплементарная</h3>
+        <div class="palette-bar"><span style="background:#2a9d8f"></span><span style="background:#e76f51"></span><span style="background:#f4a261"></span><span style="background:#fff"></span></div>
+        <p style="margin-top:10px">Противоположные цвета круга. Максимальный контраст, динамика.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:0">Пример: акцентные кнопки (оранжевая кнопка на бирюзовом фоне), спортивная айдентика</p>
+      </div>
+      <div class="card harmony">
+        <h3>Триада</h3>
+        <div class="palette-bar"><span style="background:#e63946"></span><span style="background:#f4d35e"></span><span style="background:#457b9d"></span><span style="background:#fff"></span></div>
+        <p style="margin-top:10px">Три равноудалённых цвета. Баланс контраста и живости.</p>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:0">Пример: детские бренды, супергеройские палитры, игровые интерфейсы</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Иллюстрации-референсы -->
+  <section>
+    <h2 style="margin-bottom:16px">Иллюстративный материал к занятию</h2>
+    <div class="illustr">
+      <figure>
+        <svg viewBox="0 0 300 150" style="width:100%;height:150px;display:block;background:#f7f2e9">
+          <rect x="30" y="90" width="60" height="50" rx="6" fill="#1d3557"/>
+          <circle cx="140" cy="80" r="28" fill="#457b9d"/>
+          <rect x="190" y="50" width="70" height="80" rx="10" fill="#a8dadc"/>
+          <rect x="20" y="140" width="260" height="4" fill="#e0d6c4"/>
+        </svg>
+        <figcaption>Натюрморт в монохромии (синий)</figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 300 150" style="width:100%;height:150px;display:block;background:#fdf6ec">
+          <rect x="30" y="90" width="60" height="50" rx="6" fill="#e63946"/>
+          <circle cx="140" cy="80" r="28" fill="#f4a261"/>
+          <rect x="190" y="50" width="70" height="80" rx="10" fill="#e9c46a"/>
+          <rect x="20" y="140" width="260" height="4" fill="#e0d6c4"/>
+        </svg>
+        <figcaption>Натюрморт в аналогии (тёплая гамма)</figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 300 150" style="width:100%;height:150px;display:block;background:#f2faf8">
+          <rect x="30" y="90" width="60" height="50" rx="6" fill="#2a9d8f"/>
+          <circle cx="140" cy="80" r="28" fill="#e76f51"/>
+          <rect x="190" y="50" width="70" height="80" rx="10" fill="#f4a261"/>
+          <rect x="20" y="140" width="260" height="4" fill="#e0d6c4"/>
+        </svg>
+        <figcaption>Натюрморт в комплементарной паре</figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 300 150" style="width:100%;height:150px;display:block;background:#f6f4fb">
+          <rect x="30" y="90" width="60" height="50" rx="6" fill="#e63946"/>
+          <circle cx="140" cy="80" r="28" fill="#f4d35e"/>
+          <rect x="190" y="50" width="70" height="80" rx="10" fill="#457b9d"/>
+          <rect x="20" y="140" width="260" height="4" fill="#e0d6c4"/>
+        </svg>
+        <figcaption>Натюрморт в триаде</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Карта обеспечения -->
+  <section>
+    <h2 style="margin-bottom:16px">3. Карта обеспечения занятия</h2>
+    <table>
+      <thead><tr><th>РО (глагол по Блуму)</th><th>Вид оценивания</th><th>Оценочное мероприятие</th><th>Критерий</th><th>Баллы</th></tr></thead>
+      <tbody>
+        <tr><td>РО1 «перечислять 4 типа гармоний»</td><td>Диагностическое</td><td>Блиц-опрос (5 вопросов)</td><td>Верно названы все 4 типа и признаки</td><td>1</td></tr>
+        <tr><td>РО2 «читать схему цветового круга»</td><td>Формирующее</td><td>Задание «Определи гармонию по палитре»</td><td>Правильно определён тип для 3 из 4 палитр</td><td>2</td></tr>
+        <tr><td>РО3 «выполнять натюрморт по алгоритму»</td><td>Суммирующее</td><td>Практическая работа — натюрморт А3</td><td>Соблюдена гармония, выполнены все этапы, работа завершена</td><td>4</td></tr>
+        <tr><td>РО4 «анализировать по критериям»</td><td>Формирующее</td><td>Взаимная оценка по чек-листу</td><td>Аргументированный анализ по 3 критериям</td><td>2</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:14px">Итого: <b>9 баллов</b> — в пределах нормы 8–10 баллов за занятие.</p>
+  </section>
+
+  <!-- Таймлайн -->
+  <section>
+    <h2 style="margin-bottom:16px">4. Маршрут занятия (90 мин)</h2>
+    <div class="timeline">
+      <div class="tl-item"><b>Разминка «Цветовой вызов» — 10 мин</b><span>Парадоксальный вопрос, короткое видео с палитрами брендов.</span></div>
+      <div class="tl-item"><b>Погружение в проблему — 15 мин</b><span>Демонстрация 4 гармоний, разбор цветового круга Иттена.</span></div>
+      <div class="tl-item"><b>Практическая работа — 45 мин</b><span>Натюрморт в выбранной гармонии: палитра → эскиз → живопись.</span></div>
+      <div class="tl-item"><b>Мини-выставка и взаимная оценка — 12 мин</b><span>Чек-лист: контраст, нюанс, целостность.</span></div>
+      <div class="tl-item"><b>Рефлексия и выводы — 8 мин</b><span>Метод «Светофор» + устный опрос.</span></div>
+    </div>
+  </section>
+
+  <!-- Детализация этапа -->
+  <section>
+    <h2 style="margin-bottom:16px">Детализация ключевого этапа: «Практическая работа»</h2>
+    <div class="grid cols-3">
+      <div class="card"><span class="tag t3">Преподаватель</span><p>Раздаёт карточки с палитрами (4 типа), объясняет алгоритм, консультирует, задаёт наводящие вопросы.</p></div>
+      <div class="card"><span class="tag t3">Студенты</span><p>Выбирают карточку, определяют тип гармонии, делают эскиз, выполняют натюрморт в выбранной палитре.</p></div>
+      <div class="card"><span class="tag t3">Форма работы</span><p>Индивидуальная (с элементами групповой консультации); на выставке — групповая; на итогах — фронтальная.</p></div>
+    </div>
+  </section>
+
+  <!-- Приёмы и VARK -->
+  <section>
+    <h2 style="margin-bottom:16px">5. Вовлечение и мультимодальность</h2>
+    <div class="card" style="margin-bottom:18px">
+      <span class="tag t2">5.1. Приёмы вовлечения</span>
+      <p>Старт с парадокса: «Почему один натюрморт в разных гармониях вызывает разные эмоции?» · Видео с палитрами брендов · Соревнование «чья гармония точнее».</p>
+    </div>
+    <div class="vark">
+      <div class="card"><span class="icon">👁️</span><b>Визуалы</b><p>Цветовой круг, слайды, образцы</p></div>
+      <div class="card"><span class="icon">👂</span><b>Аудиалы</b><p>Объяснение принципов, обсуждение</p></div>
+      <div class="card"><span class="icon">✋</span><b>Кинестетики</b><p>Работа с красками, эскизы</p></div>
+      <div class="card"><span class="icon">💬</span><b>Вербалы</b><p>Формулировка критериев, защита работы</p></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <span class="tag t3">5.3. Рефлексия</span>
+      <p>Метод «Светофор»: зелёный — понял и смогу применить; жёлтый — понял, нужна практика; красный — не понял. Плюс устный опрос «Что было самым сложным?»</p>
+    </div>
+  </section>
+
+  <!-- Инструментарий -->
+  <section>
+    <h2 style="margin-bottom:16px">6. Инструментарий</h2>
+    <div class="card">
+      <span class="pill">Цветовой круг Иттена</span>
+      <span class="pill">Образцы натюрмортов</span>
+      <span class="pill">Гуашь / акрил</span>
+      <span class="pill">Кисти</span>
+      <span class="pill">Бумага А3</span>
+      <span class="pill">Палитры</span>
+      <span class="pill">Проектор</span>
+      <span class="pill">Ноутбук</span>
+      <span class="pill">Miro</span>
+      <span class="pill">Карточки с палитрами</span>
+    </div>
+  </section>
+
+  <!-- План Б -->
+  <section>
+    <h2 style="margin-bottom:16px">7. План «Б»</h2>
+    <div class="grid cols-2">
+      <div class="card"><h3>Нет проектора</h3><p>Раздать распечатанные схемы цветового круга и образцы.</p></div>
+      <div class="card"><h3>Нет красок у части студентов</h3><p>Работа в парах; цифровые палитры в Miro.</p></div>
+      <div class="card"><h3>Отключение электричества</h3><p>Перейти на распечатанные материалы и устный разбор.</p></div>
+      <div class="card"><h3>Студент не успевает</h3><p>Упрощённый эскизный вариант А4.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Проект учебного занятия · «Натюрморт — 4 цветные гармонии» · Практическое занятие, 90 мин<br>
+  Зайкина А., Учанкина К., Звонцова Е., Сергеева Н. · группа 8ИМ62
+</footer>
+
+</body>
+</html>
